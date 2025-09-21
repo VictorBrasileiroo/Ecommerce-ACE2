@@ -1,0 +1,290 @@
+data,produto,categoria,preco,quantidade,valor_total
+2025-01-01,Anel Ouro 18K,Joalheria,3500.00,1,3500.00
+2025-01-02,Colar Pérola,Joalheria,2200.00,2,4400.00
+2025-01-03,Pulseira Prata,Joalheria,480.00,3,1440.00
+2025-01-04,Brinco Diamante,Joalheria,5200.00,4,20800.00
+2025-01-05,Relógio Luxo,Joalheria,7800.00,5,39000.00
+2025-01-06,Pingente Coração,Joalheria,650.00,1,650.00
+2025-01-07,Aliança Casamento,Joalheria,2800.00,2,5600.00
+2025-01-08,Bracelete Ouro,Joalheria,4100.00,3,12300.00
+2025-01-09,Brinco Prata,Joalheria,300.00,4,1200.00
+2025-01-10,Colar Ouro Branco,Joalheria,4600.00,5,23000.00
+2025-01-11,Anel Safira,Joalheria,3900.00,1,3900.00
+2025-01-12,Brinco Pérola,Joalheria,950.00,2,1900.00
+2025-01-13,Anel Ouro 18K,Joalheria,3500.00,3,10500.00
+2025-01-14,Colar Pérola,Joalheria,2200.00,4,8800.00
+2025-01-15,Pulseira Prata,Joalheria,480.00,5,2400.00
+2025-01-16,Brinco Diamante,Joalheria,5200.00,1,5200.00
+2025-01-17,Relógio Luxo,Joalheria,7800.00,2,15600.00
+2025-01-18,Pingente Coração,Joalheria,650.00,3,1950.00
+2025-01-19,Aliança Casamento,Joalheria,2800.00,4,11200.00
+2025-01-20,Bracelete Ouro,Joalheria,4100.00,5,20500.00
+2025-01-21,Brinco Prata,Joalheria,300.00,1,300.00
+2025-01-22,Colar Ouro Branco,Joalheria,4600.00,2,9200.00
+2025-01-23,Anel Safira,Joalheria,3900.00,3,11700.00
+2025-01-24,Brinco Pérola,Joalheria,950.00,4,3800.00
+2025-01-25,Anel Ouro 18K,Joalheria,3500.00,5,17500.00
+2025-01-26,Colar Pérola,Joalheria,2200.00,1,2200.00
+2025-01-27,Pulseira Prata,Joalheria,480.00,2,960.00
+2025-01-28,Brinco Diamante,Joalheria,5200.00,3,15600.00
+2025-01-29,Relógio Luxo,Joalheria,7800.00,4,31200.00
+2025-01-30,Pingente Coração,Joalheria,650.00,5,3250.00
+2025-01-31,Aliança Casamento,Joalheria,2800.00,1,2800.00
+2025-01-31,Bracelete Ouro,Joalheria,4100.00,2,8200.00
+2025-01-31,Brinco Prata,Joalheria,300.00,3,900.00
+2025-02-01,Colar Ouro Branco,Joalheria,4600.00,4,18400.00
+2025-02-02,Anel Safira,Joalheria,3900.00,5,19500.00
+2025-02-03,Brinco Pérola,Joalheria,950.00,1,950.00
+2025-02-04,Anel Ouro 18K,Joalheria,3500.00,2,7000.00
+2025-02-05,Colar Pérola,Joalheria,2200.00,3,6600.00
+2025-02-06,Pulseira Prata,Joalheria,480.00,4,1920.00
+2025-02-07,Brinco Diamante,Joalheria,5200.00,5,26000.00
+2025-02-08,Relógio Luxo,Joalheria,7800.00,1,7800.00
+2025-02-09,Pingente Coração,Joalheria,650.00,2,1300.00
+2025-02-10,Aliança Casamento,Joalheria,2800.00,3,8400.00
+2025-02-11,Bracelete Ouro,Joalheria,4100.00,4,16400.00
+2025-02-12,Brinco Prata,Joalheria,300.00,5,1500.00
+2025-02-13,Colar Ouro Branco,Joalheria,4600.00,1,4600.00
+2025-02-14,Anel Safira,Joalheria,3900.00,2,7800.00
+2025-02-15,Brinco Pérola,Joalheria,950.00,3,2850.00
+2025-02-16,Anel Ouro 18K,Joalheria,3500.00,4,14000.00
+2025-02-17,Colar Pérola,Joalheria,2200.00,5,11000.00
+2025-02-18,Pulseira Prata,Joalheria,480.00,1,480.00
+2025-02-19,Brinco Diamante,Joalheria,5200.00,2,10400.00
+2025-02-20,Relógio Luxo,Joalheria,7800.00,3,23400.00
+2025-02-21,Pingente Coração,Joalheria,650.00,4,2600.00
+2025-02-22,Aliança Casamento,Joalheria,2800.00,5,14000.00
+2025-02-23,Bracelete Ouro,Joalheria,4100.00,1,4100.00
+2025-02-24,Brinco Prata,Joalheria,300.00,2,600.00
+2025-02-25,Colar Ouro Branco,Joalheria,4600.00,3,13800.00
+2025-02-26,Anel Safira,Joalheria,3900.00,4,15600.00
+2025-02-27,Brinco Pérola,Joalheria,950.00,5,4750.00
+2025-02-28,Anel Ouro 18K,Joalheria,3500.00,1,3500.00
+2025-02-28,Colar Pérola,Joalheria,2200.00,2,4400.00
+2025-02-28,Pulseira Prata,Joalheria,480.00,3,1440.00
+2025-03-01,Brinco Diamante,Joalheria,5200.00,4,20800.00
+2025-03-02,Relógio Luxo,Joalheria,7800.00,5,39000.00
+2025-03-03,Pingente Coração,Joalheria,650.00,1,650.00
+2025-03-04,Aliança Casamento,Joalheria,2800.00,2,5600.00
+2025-03-05,Bracelete Ouro,Joalheria,4100.00,3,12300.00
+2025-03-06,Brinco Prata,Joalheria,300.00,4,1200.00
+2025-03-07,Colar Ouro Branco,Joalheria,4600.00,5,23000.00
+2025-03-08,Anel Safira,Joalheria,3900.00,1,3900.00
+2025-03-09,Brinco Pérola,Joalheria,950.00,2,1900.00
+2025-03-10,Anel Ouro 18K,Joalheria,3500.00,3,10500.00
+2025-03-11,Colar Pérola,Joalheria,2200.00,4,8800.00
+2025-03-12,Pulseira Prata,Joalheria,480.00,5,2400.00
+2025-03-13,Brinco Diamante,Joalheria,5200.00,1,5200.00
+2025-03-14,Relógio Luxo,Joalheria,7800.00,2,15600.00
+2025-03-15,Pingente Coração,Joalheria,650.00,3,1950.00
+2025-03-16,Aliança Casamento,Joalheria,2800.00,4,11200.00
+2025-03-17,Bracelete Ouro,Joalheria,4100.00,5,20500.00
+2025-03-18,Brinco Prata,Joalheria,300.00,1,300.00
+2025-03-19,Colar Ouro Branco,Joalheria,4600.00,2,9200.00
+2025-03-20,Anel Safira,Joalheria,3900.00,3,11700.00
+2025-03-21,Brinco Pérola,Joalheria,950.00,4,3800.00
+2025-03-22,Anel Ouro 18K,Joalheria,3500.00,5,17500.00
+2025-03-23,Colar Pérola,Joalheria,2200.00,1,2200.00
+2025-03-24,Pulseira Prata,Joalheria,480.00,2,960.00
+2025-03-25,Brinco Diamante,Joalheria,5200.00,3,15600.00
+2025-03-26,Relógio Luxo,Joalheria,7800.00,4,31200.00
+2025-03-27,Pingente Coração,Joalheria,650.00,5,3250.00
+2025-03-28,Aliança Casamento,Joalheria,2800.00,1,2800.00
+2025-03-29,Bracelete Ouro,Joalheria,4100.00,2,8200.00
+2025-03-30,Brinco Prata,Joalheria,300.00,3,900.00
+2025-03-31,Colar Ouro Branco,Joalheria,4600.00,4,18400.00
+2025-03-31,Anel Safira,Joalheria,3900.00,5,19500.00
+2025-03-31,Brinco Pérola,Joalheria,950.00,1,950.00
+2025-04-01,Anel Ouro 18K,Joalheria,3500.00,2,7000.00
+2025-04-02,Colar Pérola,Joalheria,2200.00,3,6600.00
+2025-04-03,Pulseira Prata,Joalheria,480.00,4,1920.00
+2025-04-04,Brinco Diamante,Joalheria,5200.00,5,26000.00
+2025-04-05,Relógio Luxo,Joalheria,7800.00,1,7800.00
+2025-04-06,Pingente Coração,Joalheria,650.00,2,1300.00
+2025-04-07,Aliança Casamento,Joalheria,2800.00,3,8400.00
+2025-04-08,Bracelete Ouro,Joalheria,4100.00,4,16400.00
+2025-04-09,Brinco Prata,Joalheria,300.00,5,1500.00
+2025-04-10,Colar Ouro Branco,Joalheria,4600.00,1,4600.00
+2025-04-11,Anel Safira,Joalheria,3900.00,2,7800.00
+2025-04-12,Brinco Pérola,Joalheria,950.00,3,2850.00
+2025-04-13,Anel Ouro 18K,Joalheria,3500.00,4,14000.00
+2025-04-14,Colar Pérola,Joalheria,2200.00,5,11000.00
+2025-04-15,Pulseira Prata,Joalheria,480.00,1,480.00
+2025-04-16,Brinco Diamante,Joalheria,5200.00,2,10400.00
+2025-04-17,Relógio Luxo,Joalheria,7800.00,3,23400.00
+2025-04-18,Pingente Coração,Joalheria,650.00,4,2600.00
+2025-04-19,Aliança Casamento,Joalheria,2800.00,5,14000.00
+2025-04-20,Bracelete Ouro,Joalheria,4100.00,1,4100.00
+2025-04-21,Brinco Prata,Joalheria,300.00,2,600.00
+2025-04-22,Colar Ouro Branco,Joalheria,4600.00,3,13800.00
+2025-04-23,Anel Safira,Joalheria,3900.00,4,15600.00
+2025-04-24,Brinco Pérola,Joalheria,950.00,5,4750.00
+2025-04-25,Anel Ouro 18K,Joalheria,3500.00,1,3500.00
+2025-04-26,Colar Pérola,Joalheria,2200.00,2,4400.00
+2025-04-27,Pulseira Prata,Joalheria,480.00,3,1440.00
+2025-04-28,Brinco Diamante,Joalheria,5200.00,4,20800.00
+2025-04-29,Relógio Luxo,Joalheria,7800.00,5,39000.00
+2025-04-30,Pingente Coração,Joalheria,650.00,1,650.00
+2025-04-30,Aliança Casamento,Joalheria,2800.00,2,5600.00
+2025-04-30,Bracelete Ouro,Joalheria,4100.00,3,12300.00
+2025-05-01,Brinco Prata,Joalheria,300.00,4,1200.00
+2025-05-02,Colar Ouro Branco,Joalheria,4600.00,5,23000.00
+2025-05-03,Anel Safira,Joalheria,3900.00,1,3900.00
+2025-05-04,Brinco Pérola,Joalheria,950.00,2,1900.00
+2025-05-05,Anel Ouro 18K,Joalheria,3500.00,3,10500.00
+2025-05-06,Colar Pérola,Joalheria,2200.00,4,8800.00
+2025-05-07,Pulseira Prata,Joalheria,480.00,5,2400.00
+2025-05-08,Brinco Diamante,Joalheria,5200.00,1,5200.00
+2025-05-09,Relógio Luxo,Joalheria,7800.00,2,15600.00
+2025-05-10,Pingente Coração,Joalheria,650.00,3,1950.00
+2025-05-11,Aliança Casamento,Joalheria,2800.00,4,11200.00
+2025-05-12,Bracelete Ouro,Joalheria,4100.00,5,20500.00
+2025-05-13,Brinco Prata,Joalheria,300.00,1,300.00
+2025-05-14,Colar Ouro Branco,Joalheria,4600.00,2,9200.00
+2025-05-15,Anel Safira,Joalheria,3900.00,3,11700.00
+2025-05-16,Brinco Pérola,Joalheria,950.00,4,3800.00
+2025-05-17,Anel Ouro 18K,Joalheria,3500.00,5,17500.00
+2025-05-18,Colar Pérola,Joalheria,2200.00,1,2200.00
+2025-05-19,Pulseira Prata,Joalheria,480.00,2,960.00
+2025-05-20,Brinco Diamante,Joalheria,5200.00,3,15600.00
+2025-05-21,Relógio Luxo,Joalheria,7800.00,4,31200.00
+2025-05-22,Pingente Coração,Joalheria,650.00,5,3250.00
+2025-05-23,Aliança Casamento,Joalheria,2800.00,1,2800.00
+2025-05-24,Bracelete Ouro,Joalheria,4100.00,2,8200.00
+2025-05-25,Brinco Prata,Joalheria,300.00,3,900.00
+2025-05-26,Colar Ouro Branco,Joalheria,4600.00,4,18400.00
+2025-05-27,Anel Safira,Joalheria,3900.00,5,19500.00
+2025-05-28,Brinco Pérola,Joalheria,950.00,1,950.00
+2025-05-29,Anel Ouro 18K,Joalheria,3500.00,2,7000.00
+2025-05-30,Colar Pérola,Joalheria,2200.00,3,6600.00
+2025-05-31,Pulseira Prata,Joalheria,480.00,4,1920.00
+2025-05-31,Brinco Diamante,Joalheria,5200.00,5,26000.00
+2025-05-31,Relógio Luxo,Joalheria,7800.00,1,7800.00
+2025-06-01,Pingente Coração,Joalheria,650.00,2,1300.00
+2025-06-02,Aliança Casamento,Joalheria,2800.00,3,8400.00
+2025-06-03,Bracelete Ouro,Joalheria,4100.00,4,16400.00
+2025-06-04,Brinco Prata,Joalheria,300.00,5,1500.00
+2025-06-05,Colar Ouro Branco,Joalheria,4600.00,1,4600.00
+2025-06-06,Anel Safira,Joalheria,3900.00,2,7800.00
+2025-06-07,Brinco Pérola,Joalheria,950.00,3,2850.00
+2025-06-08,Anel Ouro 18K,Joalheria,3500.00,4,14000.00
+2025-06-09,Colar Pérola,Joalheria,2200.00,5,11000.00
+2025-06-10,Pulseira Prata,Joalheria,480.00,1,480.00
+2025-06-11,Brinco Diamante,Joalheria,5200.00,2,10400.00
+2025-06-12,Relógio Luxo,Joalheria,7800.00,3,23400.00
+2025-06-13,Pingente Coração,Joalheria,650.00,4,2600.00
+2025-06-14,Aliança Casamento,Joalheria,2800.00,5,14000.00
+2025-06-15,Bracelete Ouro,Joalheria,4100.00,1,4100.00
+2025-06-16,Brinco Prata,Joalheria,300.00,2,600.00
+2025-06-17,Colar Ouro Branco,Joalheria,4600.00,3,13800.00
+2025-06-18,Anel Safira,Joalheria,3900.00,4,15600.00
+2025-06-19,Brinco Pérola,Joalheria,950.00,5,4750.00
+2025-06-20,Anel Ouro 18K,Joalheria,3500.00,1,3500.00
+2025-06-21,Colar Pérola,Joalheria,2200.00,2,4400.00
+2025-06-22,Pulseira Prata,Joalheria,480.00,3,1440.00
+2025-06-23,Brinco Diamante,Joalheria,5200.00,4,20800.00
+2025-06-24,Relógio Luxo,Joalheria,7800.00,5,39000.00
+2025-06-25,Pingente Coração,Joalheria,650.00,1,650.00
+2025-06-26,Aliança Casamento,Joalheria,2800.00,2,5600.00
+2025-06-27,Bracelete Ouro,Joalheria,4100.00,3,12300.00
+2025-06-28,Brinco Prata,Joalheria,300.00,4,1200.00
+2025-06-29,Colar Ouro Branco,Joalheria,4600.00,5,23000.00
+2025-06-30,Anel Safira,Joalheria,3900.00,1,3900.00
+2025-06-30,Brinco Pérola,Joalheria,950.00,2,1900.00
+2025-06-30,Anel Ouro 18K,Joalheria,3500.00,3,10500.00
+2025-07-01,Colar Pérola,Joalheria,2200.00,4,8800.00
+2025-07-02,Pulseira Prata,Joalheria,480.00,5,2400.00
+2025-07-03,Brinco Diamante,Joalheria,5200.00,1,5200.00
+2025-07-04,Relógio Luxo,Joalheria,7800.00,2,15600.00
+2025-07-05,Pingente Coração,Joalheria,650.00,3,1950.00
+2025-07-06,Aliança Casamento,Joalheria,2800.00,4,11200.00
+2025-07-07,Bracelete Ouro,Joalheria,4100.00,5,20500.00
+2025-07-08,Brinco Prata,Joalheria,300.00,1,300.00
+2025-07-09,Colar Ouro Branco,Joalheria,4600.00,2,9200.00
+2025-07-10,Anel Safira,Joalheria,3900.00,3,11700.00
+2025-07-11,Brinco Pérola,Joalheria,950.00,4,3800.00
+2025-07-12,Anel Ouro 18K,Joalheria,3500.00,5,17500.00
+2025-07-13,Colar Pérola,Joalheria,2200.00,1,2200.00
+2025-07-14,Pulseira Prata,Joalheria,480.00,2,960.00
+2025-07-15,Brinco Diamante,Joalheria,5200.00,3,15600.00
+2025-07-16,Relógio Luxo,Joalheria,7800.00,4,31200.00
+2025-07-17,Pingente Coração,Joalheria,650.00,5,3250.00
+2025-07-18,Aliança Casamento,Joalheria,2800.00,1,2800.00
+2025-07-19,Bracelete Ouro,Joalheria,4100.00,2,8200.00
+2025-07-20,Brinco Prata,Joalheria,300.00,3,900.00
+2025-07-21,Colar Ouro Branco,Joalheria,4600.00,4,18400.00
+2025-07-22,Anel Safira,Joalheria,3900.00,5,19500.00
+2025-07-23,Brinco Pérola,Joalheria,950.00,1,950.00
+2025-07-24,Anel Ouro 18K,Joalheria,3500.00,2,7000.00
+2025-07-25,Colar Pérola,Joalheria,2200.00,3,6600.00
+2025-07-26,Pulseira Prata,Joalheria,480.00,4,1920.00
+2025-07-27,Brinco Diamante,Joalheria,5200.00,5,26000.00
+2025-07-28,Relógio Luxo,Joalheria,7800.00,1,7800.00
+2025-07-29,Pingente Coração,Joalheria,650.00,2,1300.00
+2025-07-30,Aliança Casamento,Joalheria,2800.00,3,8400.00
+2025-07-31,Bracelete Ouro,Joalheria,4100.00,4,16400.00
+2025-07-31,Brinco Prata,Joalheria,300.00,5,1500.00
+2025-07-31,Colar Ouro Branco,Joalheria,4600.00,1,4600.00
+2025-08-01,Anel Safira,Joalheria,3900.00,2,7800.00
+2025-08-02,Brinco Pérola,Joalheria,950.00,3,2850.00
+2025-08-03,Anel Ouro 18K,Joalheria,3500.00,4,14000.00
+2025-08-04,Colar Pérola,Joalheria,2200.00,5,11000.00
+2025-08-05,Pulseira Prata,Joalheria,480.00,1,480.00
+2025-08-06,Brinco Diamante,Joalheria,5200.00,2,10400.00
+2025-08-07,Relógio Luxo,Joalheria,7800.00,3,23400.00
+2025-08-08,Pingente Coração,Joalheria,650.00,4,2600.00
+2025-08-09,Aliança Casamento,Joalheria,2800.00,5,14000.00
+2025-08-10,Bracelete Ouro,Joalheria,4100.00,1,4100.00
+2025-08-11,Brinco Prata,Joalheria,300.00,2,600.00
+2025-08-12,Colar Ouro Branco,Joalheria,4600.00,3,13800.00
+2025-08-13,Anel Safira,Joalheria,3900.00,4,15600.00
+2025-08-14,Brinco Pérola,Joalheria,950.00,5,4750.00
+2025-08-15,Anel Ouro 18K,Joalheria,3500.00,1,3500.00
+2025-08-16,Colar Pérola,Joalheria,2200.00,2,4400.00
+2025-08-17,Pulseira Prata,Joalheria,480.00,3,1440.00
+2025-08-18,Brinco Diamante,Joalheria,5200.00,4,20800.00
+2025-08-19,Relógio Luxo,Joalheria,7800.00,5,39000.00
+2025-08-20,Pingente Coração,Joalheria,650.00,1,650.00
+2025-08-21,Aliança Casamento,Joalheria,2800.00,2,5600.00
+2025-08-22,Bracelete Ouro,Joalheria,4100.00,3,12300.00
+2025-08-23,Brinco Prata,Joalheria,300.00,4,1200.00
+2025-08-24,Colar Ouro Branco,Joalheria,4600.00,5,23000.00
+2025-08-25,Anel Safira,Joalheria,3900.00,1,3900.00
+2025-08-26,Brinco Pérola,Joalheria,950.00,2,1900.00
+2025-08-27,Anel Ouro 18K,Joalheria,3500.00,3,10500.00
+2025-08-28,Colar Pérola,Joalheria,2200.00,4,8800.00
+2025-08-29,Pulseira Prata,Joalheria,480.00,5,2400.00
+2025-08-30,Brinco Diamante,Joalheria,5200.00,1,5200.00
+2025-08-31,Relógio Luxo,Joalheria,7800.00,2,15600.00
+2025-08-31,Pingente Coração,Joalheria,650.00,3,1950.00
+2025-08-31,Aliança Casamento,Joalheria,2800.00,4,11200.00
+2025-09-01,Bracelete Ouro,Joalheria,4100.00,5,20500.00
+2025-09-02,Brinco Prata,Joalheria,300.00,1,300.00
+2025-09-03,Colar Ouro Branco,Joalheria,4600.00,2,9200.00
+2025-09-04,Anel Safira,Joalheria,3900.00,3,11700.00
+2025-09-05,Brinco Pérola,Joalheria,950.00,4,3800.00
+2025-09-06,Anel Ouro 18K,Joalheria,3500.00,5,17500.00
+2025-09-07,Colar Pérola,Joalheria,2200.00,1,2200.00
+2025-09-08,Pulseira Prata,Joalheria,480.00,2,960.00
+2025-09-09,Brinco Diamante,Joalheria,5200.00,3,15600.00
+2025-09-10,Relógio Luxo,Joalheria,7800.00,4,31200.00
+2025-09-11,Pingente Coração,Joalheria,650.00,5,3250.00
+2025-09-12,Aliança Casamento,Joalheria,2800.00,1,2800.00
+2025-09-13,Bracelete Ouro,Joalheria,4100.00,2,8200.00
+2025-09-14,Brinco Prata,Joalheria,300.00,3,900.00
+2025-09-15,Colar Ouro Branco,Joalheria,4600.00,4,18400.00
+2025-09-16,Anel Safira,Joalheria,3900.00,5,19500.00
+2025-09-17,Brinco Pérola,Joalheria,950.00,1,950.00
+2025-09-18,Anel Ouro 18K,Joalheria,3500.00,2,7000.00
+2025-09-19,Colar Pérola,Joalheria,2200.00,3,6600.00
+2025-09-20,Pulseira Prata,Joalheria,480.00,4,1920.00
+2025-09-21,Brinco Diamante,Joalheria,5200.00,5,26000.00
+2025-09-22,Relógio Luxo,Joalheria,7800.00,1,7800.00
+2025-09-23,Pingente Coração,Joalheria,650.00,2,1300.00
+2025-09-24,Aliança Casamento,Joalheria,2800.00,3,8400.00
+2025-09-25,Bracelete Ouro,Joalheria,4100.00,4,16400.00
+2025-09-26,Brinco Prata,Joalheria,300.00,5,1500.00
+2025-09-27,Colar Ouro Branco,Joalheria,4600.00,1,4600.00
+2025-09-28,Anel Safira,Joalheria,3900.00,2,7800.00
+2025-09-29,Brinco Pérola,Joalheria,950.00,3,2850.00
+2025-09-30,Anel Ouro 18K,Joalheria,3500.00,4,14000.00

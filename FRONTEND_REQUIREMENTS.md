@@ -37,6 +37,11 @@ src/
 ### Tela de Login/Registro
 **Endpoint de integração**: `POST /auth/login` e `POST /auth/register`
 
+#### Exemplos Visuais de Referência:
+![Exemplo de Login](./images/image.png)
+![Layout de Autenticação](./images/image%20copy.png)
+![Formulário de Login](./images/image%20copy%202.png)
+
 #### Funcionalidades Obrigatórias:
 - **Layout em Abas**: Login e Cadastro em tabs separadas
 - **Campos de Login**:
@@ -79,6 +84,11 @@ const authHeaders = {
 - **Layout Responsivo**: Grid flexível que se adapta a diferentes telas
 - **Auto-refresh**: Opção de atualização automática dos dados
 
+#### Exemplos de Layout do Dashboard:
+![Dashboard Principal](./images/image%20copy%203.png)
+![Layout com KPIs](./images/image%20copy%204.png)
+![Vista Geral](./images/image%20copy%205.png)
+
 ### KPIs Principais (Cards de Métricas)
 **Endpoint**: `GET /metrics`
 
@@ -112,6 +122,11 @@ const authHeaders = {
 - **Eixo Y**: Receita (R$)
 - **Features**: Hover com detalhes, responsivo
 
+#### Exemplos de Gráficos:
+![Gráficos de Receita](./images/image%20copy%206.png)
+![Visualização de Dados](./images/image%20copy%207.png)
+![Charts e Analytics](./images/image%20copy%208.png)
+
 #### 2. Previsões ML
 **Endpoint**: `GET /forecast`
 - **Tipo**: Gráfico de barras ou combinado (linha histórica + barras previstas)
@@ -123,6 +138,10 @@ const authHeaders = {
 
 ### Botão Executar ML
 **Endpoint**: `POST /run-ml`
+
+#### Interface do Sistema ML:
+![Sistema ML](./images/image%20copy%209.png)
+![Previsões](./images/image%20copy%2010.png)
 
 #### Funcionalidades:
 - **Loading State**: Spinner com texto "Executando ML..."
@@ -149,6 +168,11 @@ const authHeaders = {
 
 ### Aba 1: Vendas por Categoria
 **Dados**: `metrics.vendas_categoria`
+
+#### Exemplos de Análises Detalhadas:
+![Análise por Categoria](./images/image%20copy%2011.png)
+![Tabelas Detalhadas](./images/image%20copy%2012.png)
+![Relatórios Avançados](./images/image%20copy%2013.png)
 
 #### Layout em 2 Colunas:
 1. **Gráfico de Pizza**:
@@ -224,6 +248,9 @@ const authHeaders = {
 
 ### Página de Upload CSV
 **Endpoint**: `POST /import`
+
+#### Interface de Import:
+![Upload de Dados](./images/image%20copy%2014.png)
 
 #### Funcionalidades Obrigatórias:
 - **File Upload**: Drag & drop + botão de seleção

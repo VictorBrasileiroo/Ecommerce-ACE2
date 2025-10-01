@@ -74,7 +74,6 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)):
     if existing_user:
         raise HTTPException(status_code=400, detail="Email já está em uso")
     
-    # Criar novo usuário
     hashed_password = get_password_hash(user_data.password)
     new_user = Usuario(email=user_data.email, senha_hash=hashed_password)
     db.add(new_user)

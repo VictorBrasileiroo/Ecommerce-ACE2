@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import numpy as np
 import time
 
-API_URL = "http://localhost:8001"  # Porta ajustada temporariamente
+API_URL = "http://localhost:8001"  
 
 def format_number(value, decimals=2):
     """Formatar números no padrão brasileiro (ponto para milhares, vírgula para decimais)"""
@@ -111,7 +111,7 @@ def show_dashboard(token):
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
     
     with col1:
-        if st.button("🤖 Executar ML", type="primary", width="stretch"):
+        if st.button("🤖 Executar ML", type="primary"):
             with st.spinner("🔄 Executando modelo de Machine Learning..."):
                 try:
                     response = requests.post(f"{API_URL}/run-ml", headers=headers, timeout=60)
@@ -181,14 +181,12 @@ def show_dashboard(token):
         st.info(f"🔧 Verifique se o backend está rodando em {API_URL}")
         return
     
-    # === SEÇÃO DE KPIs PRINCIPAIS ===
     st.header("📈 Indicadores Principais")
     
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         receita_total = metrics.get('receita_total', 0)
-        # Calcular crescimento baseado nos dados reais
         crescimento_receita = 0
         if metrics.get('evolucao_mensal') and len(metrics['evolucao_mensal']) >= 2:
             atual = metrics['evolucao_mensal'][-1]['receita']
@@ -204,7 +202,6 @@ def show_dashboard(token):
     
     with col2:
         ticket_medio = metrics.get('ticket_medio', 0)
-        # Calcular variação do ticket médio
         variacao_ticket = 0
         if metrics.get('evolucao_mensal') and len(metrics['evolucao_mensal']) >= 2:
             vendas_atual = metrics.get('total_vendas', 1)
@@ -222,8 +219,7 @@ def show_dashboard(token):
     
     with col3:
         total_vendas = metrics.get('total_vendas', 0)
-        # Calcular meta de vendas
-        meta_vendas = 50
+        meta_vendas = 200
         progresso_vendas = (total_vendas / meta_vendas) * 100 if meta_vendas > 0 else 0
         
         st.metric(
@@ -246,10 +242,8 @@ def show_dashboard(token):
     
     st.divider()
     
-    # === GRÁFICOS PRINCIPAIS ===
     col1, col2 = st.columns(2)
     
-    # Gráfico 1: Evolução da Receita
     with col1:
         st.subheader("📊 Evolução da Receita Mensal")
         if metrics.get('evolucao_mensal'):
@@ -270,25 +264,21 @@ def show_dashboard(token):
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)'
             )
-            st.plotly_chart(fig_linha, width="stretch")
+            st.plotly_chart(fig_linha, use_container_width=True)
         else:
             st.info("📊 Nenhum dado de vendas encontrado. Importe dados primeiro!")
     
-    # Gráfico 2: Previsões ML
     with col2:
         st.subheader("🔮 Previsões de Receita ML")
         if forecast:
             df_forecast = pd.DataFrame(forecast)
             df_forecast['data_prevista'] = pd.to_datetime(df_forecast['data_prevista'])
-            # Coluna de exibição do produto: usa nome se disponível, senão fallback para ID
             if 'produto_nome' in df_forecast.columns:
                 df_forecast['produto_exibicao'] = df_forecast.apply(
                     lambda r: r['produto_nome'] if pd.notna(r.get('produto_nome')) and str(r.get('produto_nome')).strip() != '' else f"ID {r['produto_id']}", axis=1
                 )
             else:
                 df_forecast['produto_exibicao'] = df_forecast['produto_id'].apply(lambda x: f"ID {x}")
-            
-            # Agrupar por data para mostrar receita total prevista
             df_receita_mes = df_forecast.groupby('data_prevista')['qtd_prevista'].sum().reset_index()
             df_receita_mes.columns = ['data_prevista', 'receita_prevista']
             
@@ -312,12 +302,10 @@ def show_dashboard(token):
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)'
             )
-            st.plotly_chart(fig_forecast, width="stretch")
+            st.plotly_chart(fig_forecast, use_container_width=True)
             
-            # Mostrar produto mais provável de ser top
             st.subheader("🏆 Produtos Top Previstos")
             
-            # Calcular qual produto tem maior receita prevista total
             produto_totals = df_forecast.groupby('produto_exibicao')['qtd_prevista'].sum().reset_index()
             if not produto_totals.empty:
                 top_produto_nome = produto_totals.loc[produto_totals['qtd_prevista'].idxmax(), 'produto_exibicao']
@@ -331,7 +319,6 @@ def show_dashboard(token):
                         f"R$ {format_number(top_receita)} prev."
                     )
                 with col_b:
-                    # Top 3 produtos
                     top_3 = produto_totals.nlargest(3, 'qtd_prevista')
                     st.write("**Top 3 Produtos:**")
                     for i, row in top_3.iterrows():
@@ -362,7 +349,6 @@ def show_dashboard(token):
     
     st.divider()
     
-    # === ANÁLISES DETALHADAS EM ABAS ===
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📊 Vendas por Categoria", 
         "📈 Análise de Tendências", 
@@ -382,7 +368,6 @@ def show_dashboard(token):
             col1, col2 = st.columns(2)
             
             with col1:
-                # Gráfico de pizza
                 fig_pizza = px.pie(
                     values=receitas, 
                     names=categorias,
@@ -390,10 +375,9 @@ def show_dashboard(token):
                     color_discrete_sequence=px.colors.qualitative.Set3
                 )
                 fig_pizza.update_traces(textposition='inside', textinfo='percent+label')
-                st.plotly_chart(fig_pizza, width="stretch")
+                st.plotly_chart(fig_pizza, use_container_width=True)
             
             with col2:
-                # Tabela de dados
                 df_cat = pd.DataFrame(vendas_cat)
                 df_cat['categoria'] = df_cat['categoria'].fillna('Sem categoria')
                 df_cat['Participação %'] = df_cat['receita'].apply(lambda x: f"{(x/sum(receitas)*100):.1f}%")
@@ -403,7 +387,7 @@ def show_dashboard(token):
                     'receita': 'Receita',
                     'num_vendas': 'Qtd Vendas'
                 })
-                st.dataframe(df_cat, width="stretch")
+                st.dataframe(df_cat, use_container_width=True)
         else:
             st.warning("⚠️ Nenhum dado de categoria encontrado")
     
@@ -413,7 +397,6 @@ def show_dashboard(token):
         if metrics.get('evolucao_mensal'):
             df_evolucao = pd.DataFrame(metrics['evolucao_mensal'])
             
-            # Gráfico de área
             fig_area = px.area(
                 df_evolucao, 
                 x='mes', 
@@ -425,9 +408,8 @@ def show_dashboard(token):
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)'
             )
-            st.plotly_chart(fig_area, width="stretch")
+            st.plotly_chart(fig_area, use_container_width=True)
             
-            # Métricas de crescimento
             if len(df_evolucao) > 1:
                 crescimento = ((df_evolucao['receita'].iloc[-1] - df_evolucao['receita'].iloc[0]) / df_evolucao['receita'].iloc[0]) * 100
                 
@@ -501,14 +483,14 @@ def show_dashboard(token):
             ))
             
             fig_combined.update_layout(
-                title="� Evolução da Receita: Histórico vs Previsão ML",
+                title="📈 Evolução da Receita: Histórico vs Previsão ML",
                 xaxis_title="Período",
                 yaxis_title="Receita (R$)",
                 legend=dict(x=0, y=1),
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)'
             )
-            st.plotly_chart(fig_combined, width="stretch")
+            st.plotly_chart(fig_combined, use_container_width=True)
             
             # === ANÁLISE POR PRODUTO ===
             st.subheader("🏆 Ranking de Produtos Previstos")
@@ -544,7 +526,7 @@ def show_dashboard(token):
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)'
             )
-            st.plotly_chart(fig_produtos, width="stretch")
+            st.plotly_chart(fig_produtos, use_container_width=True)
             
             # === TABELAS DETALHADAS ===
             col1, col2 = st.columns(2)
@@ -560,7 +542,7 @@ def show_dashboard(token):
                     'data_prevista': 'Mês',
                     'receita_total': 'Receita Prevista'
                 })
-                st.dataframe(df_receita_display, width="stretch")
+                st.dataframe(df_receita_display, use_container_width=True)
             
             with col2:
                 st.subheader("🏆 Top Produtos Detalhado")
@@ -573,7 +555,7 @@ def show_dashboard(token):
                     'receita_total_prevista': 'Receita Prevista',
                     'num_previsoes': 'Nº Previsões'
                 })
-                st.dataframe(df_produtos_display, width="stretch")
+                st.dataframe(df_produtos_display, use_container_width=True)
             
             # === ESTATÍSTICAS DAS PREVISÕES ===
             st.subheader("📊 Estatísticas das Previsões ML")
@@ -641,7 +623,7 @@ def show_dashboard(token):
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)'
             )
-            st.plotly_chart(fig_bar_h, width="stretch")
+            st.plotly_chart(fig_bar_h, use_container_width=True)
             
             # Gráfico de barras vertical para quantidade
             fig_bar_v = px.bar(
@@ -657,7 +639,7 @@ def show_dashboard(token):
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)'
             )
-            st.plotly_chart(fig_bar_v, width="stretch")
+            st.plotly_chart(fig_bar_v, use_container_width=True)
             
             # Tabela detalhada
             st.subheader("📊 Tabela Detalhada dos Top Produtos")
@@ -668,7 +650,7 @@ def show_dashboard(token):
                 'receita': 'Receita Total',
                 'quantidade': 'Qtd Vendida'
             })
-            st.dataframe(top_produtos_display, width="stretch")
+            st.dataframe(top_produtos_display, use_container_width=True)
         else:
             st.info("📦 Nenhum produto encontrado")
     

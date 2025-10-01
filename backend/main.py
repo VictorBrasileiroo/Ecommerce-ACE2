@@ -48,21 +48,17 @@ def import_csv(file: UploadFile = File(...), db: Session = Depends(get_db), curr
 
 @app.get("/metrics")
 def get_metrics(db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
-    # Filtrar todas as consultas por usuário
     receita_total = db.query(func.sum(Venda.valor_total)).filter(Venda.usuario_id == current_user.id).scalar() or 0
     ticket_medio = db.query(func.avg(Venda.valor_total)).filter(Venda.usuario_id == current_user.id).scalar() or 0
     
-    # Produto mais vendido do usuário
     produto_mais_vendido = db.query(Produto.nome, func.sum(Venda.quantidade).label('qtd'))\
         .join(Venda).filter(Venda.usuario_id == current_user.id)\
         .group_by(Produto.id).order_by(func.sum(Venda.quantidade).desc()).first()
     
-    # Evolução mensal do usuário
     evolucao = db.query(func.strftime('%Y-%m', Venda.data).label('mes'), func.sum(Venda.valor_total))\
         .filter(Venda.usuario_id == current_user.id)\
         .group_by('mes').order_by('mes').all()
     
-    # Top 5 produtos por receita do usuário
     top_produtos = db.query(
         Produto.nome, 
         func.sum(Venda.valor_total).label('receita'),
@@ -70,7 +66,6 @@ def get_metrics(db: Session = Depends(get_db), current_user: Usuario = Depends(g
     ).join(Venda).filter(Venda.usuario_id == current_user.id)\
      .group_by(Produto.id).order_by(func.sum(Venda.valor_total).desc()).limit(5).all()
     
-    # Vendas por categoria do usuário
     vendas_categoria = db.query(
         Produto.categoria,
         func.sum(Venda.valor_total).label('receita'),
@@ -78,7 +73,6 @@ def get_metrics(db: Session = Depends(get_db), current_user: Usuario = Depends(g
     ).join(Venda).filter(Venda.usuario_id == current_user.id)\
      .group_by(Produto.categoria).all()
     
-    # Estatísticas gerais do usuário
     total_vendas = db.query(func.count(Venda.id)).filter(Venda.usuario_id == current_user.id).scalar() or 0
     produtos_unicos = db.query(func.count(func.distinct(Produto.id)))\
         .join(Venda).filter(Venda.usuario_id == current_user.id).scalar() or 0
@@ -117,11 +111,9 @@ def get_forecast(db: Session = Depends(get_db), current_user: Usuario = Depends(
 @app.post("/run-ml")
 def run_ml_forecast(db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     try:
-        # Limpar previsões antigas
         db.query(Forecast).delete()
         db.commit()
         
-        # Executar ML
         import subprocess
         import sys
         import os
@@ -136,7 +128,6 @@ def run_ml_forecast(db: Session = Depends(get_db), current_user: Usuario = Depen
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
-# Criação de usuário admin padrão (apenas para protótipo)
 @app.on_event("startup")
 def create_admin():
     db = SessionLocal()

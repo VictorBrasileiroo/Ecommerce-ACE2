@@ -35,13 +35,13 @@ app.add_middleware(
 )
 
 @app.post("/import")
-async def import_csv(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
+def import_csv(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Arquivo deve ser CSV")
     
     try:
         # Ler conteúdo do arquivo
-        content = await file.read()
+        content = file.file.read()
         csv_content = content.decode('utf-8')
         csv_reader = csv.DictReader(io.StringIO(csv_content))
         

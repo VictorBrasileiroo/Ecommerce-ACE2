@@ -9,7 +9,7 @@ import time
 import os
 
 # Configuração da API baseada no ambiente
-API_URL = os.getenv("API_URL", "http://localhost:8001")  
+API_URL = os.getenv("API_URL", "https://ecommerce-backend-i2wg.onrender.com")  
 
 def format_number(value, decimals=2):
     """Formatar números no padrão brasileiro (ponto para milhares, vírgula para decimais)"""
@@ -235,10 +235,11 @@ def show_dashboard(token):
         produtos_unicos = metrics.get('produtos_unicos', 0)
         produto_destaque = metrics.get('produto_mais_vendido', 'N/A')
         
+        produto_destaque_texto = str(produto_destaque or "N/A")
         st.metric(
             label="📦 Produtos Únicos", 
             value=f"{produtos_unicos}",
-            delta=f"⭐ Top: {produto_destaque[:15]}{'...' if len(str(produto_destaque)) > 15 else ''}",
+            delta=f"⭐ Top: {produto_destaque_texto[:15]}{'...' if len(produto_destaque_texto) > 15 else ''}",
             delta_color="off"
         )
     
@@ -814,8 +815,8 @@ def main():
             
             # Links úteis
             st.subheader("🔗 Links Úteis")
-            st.markdown("[📖 Documentação API](http://localhost:8000/docs)")
-            st.markdown("[🔧 Repositório](https://github.com)")
+            st.markdown("[📖 Documentação API](https://ecommerce-backend-i2wg.onrender.com/docs)")
+            st.markdown("[🔧 Repositório](https://github.com/VictorBrasileiroo/Ecommerce-ACE2)")
         
         # Roteamento das páginas
         if menu == "🏠 Dashboard":

@@ -1,11 +1,9 @@
-import pandas as pd
 from sqlalchemy import create_engine
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
-from statsmodels.tsa.holtwinters import SimpleExpSmoothing
 import sys
 import os
-import numpy as np
 from datetime import datetime, timedelta
+import random
+import math
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.models import Base, Produto, Venda, Forecast, Usuario

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from .models import Base, Usuario, Produto, Venda, Forecast
 from .auth import router as auth_router, get_current_user, get_password_hash
 from .database import get_db, engine, SessionLocal
-import pandas as pd
+import csv
 import io
 import os
 from datetime import datetime
@@ -35,28 +35,44 @@ app.add_middleware(
 )
 
 @app.post("/import")
-def import_csv(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
+async def import_csv(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Arquivo deve ser CSV")
-    content = file.file.read()
-    df = pd.read_csv(io.BytesIO(content))
-    for _, row in df.iterrows():
-        produto = db.query(Produto).filter_by(nome=row['produto']).first()
-        if not produto:
-            produto = Produto(nome=row['produto'], categoria=row.get('categoria', ''), preco=row.get('preco', 0))
-            db.add(produto)
-            db.commit()
-            db.refresh(produto)
-        venda = Venda(
-            data=datetime.strptime(row['data'], '%Y-%m-%d'),
-            produto_id=produto.id,
-            usuario_id=current_user.id,  # Associar ao usuário logado
-            quantidade=row['quantidade'],
-            valor_total=row['valor_total']
-        )
-        db.add(venda)
-    db.commit()
-    return {"status": "Importação realizada"}
+    
+    try:
+        # Ler conteúdo do arquivo
+        content = await file.read()
+        csv_content = content.decode('utf-8')
+        csv_reader = csv.DictReader(io.StringIO(csv_content))
+        
+        for row in csv_reader:
+            # Verificar se produto existe
+            produto = db.query(Produto).filter(Produto.nome == row['produto']).first()
+            if not produto:
+                produto = Produto(
+                    nome=row['produto'], 
+                    categoria=row.get('categoria', ''), 
+                    preco=float(row.get('preco', 0))
+                )
+                db.add(produto)
+                db.flush()  # Para obter o ID
+            
+            # Criar venda
+            venda = Venda(
+                data=datetime.strptime(row['data'], '%Y-%m-%d').date(),
+                produto_id=produto.id,
+                usuario_id=current_user.id,
+                quantidade=int(row['quantidade']),
+                valor_total=float(row['valor_total'])
+            )
+            db.add(venda)
+        
+        db.commit()
+        return {"status": "Importação realizada"}
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=f"Erro ao processar CSV: {str(e)}")
 
 @app.get("/metrics")
 def get_metrics(db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):

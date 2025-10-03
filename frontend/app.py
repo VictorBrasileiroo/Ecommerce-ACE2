@@ -6,8 +6,10 @@ import plotly.graph_objects as go
 from datetime import datetime, timedelta
 import numpy as np
 import time
+import os
 
-API_URL = "http://localhost:8001"  
+# Configuração da API baseada no ambiente
+API_URL = os.getenv("API_URL", "http://localhost:8001")  
 
 def format_number(value, decimals=2):
     """Formatar números no padrão brasileiro (ponto para milhares, vírgula para decimais)"""

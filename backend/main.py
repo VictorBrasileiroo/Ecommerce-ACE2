@@ -7,16 +7,28 @@ from .auth import router as auth_router, get_current_user, get_password_hash
 from .database import get_db, engine, SessionLocal
 import pandas as pd
 import io
+import os
 from datetime import datetime
+
+# Criar diretório data se não existir
+os.makedirs("data", exist_ok=True)
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.include_router(auth_router)
 
+# Configuração CORS para produção
+origins = [
+    "http://localhost:8501",
+    "http://localhost:3000", 
+    "https://*.onrender.com",
+    "https://ace2-frontend.onrender.com"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins if os.getenv("ENVIRONMENT") == "production" else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

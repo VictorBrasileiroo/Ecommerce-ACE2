@@ -159,7 +159,7 @@ def run_ml_forecast(db: Session = Depends(get_db), current_user: Usuario = Depen
 @app.on_event("startup")
 def create_admin():
     db = SessionLocal()
-    if not db.query(Usuario).filter_by(email="admin@admin.com").first():
+    if not db.query(Usuario).filter(Usuario.email == "admin@admin.com").first():
         user = Usuario(email="admin@admin.com", senha_hash=get_password_hash("admin"))
         db.add(user)
         db.commit()

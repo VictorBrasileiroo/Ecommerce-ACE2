@@ -1,19 +1,18 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from passlib.context import CryptContext
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from .models import Usuario
 from .database import get_db
 from pydantic import BaseModel
 import os
+import hashlib
 from datetime import datetime, timedelta
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'secret')
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 router = APIRouter()
@@ -23,10 +22,10 @@ class UserCreate(BaseModel):
     password: str
 
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+    return get_password_hash(plain_password) == hashed_password
 
 def get_password_hash(password):
-    return pwd_context.hash(password)
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def authenticate_user(db: Session, email: str, password: str):
     user = db.query(Usuario).filter(Usuario.email == email).first()

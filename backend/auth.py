@@ -4,7 +4,7 @@ from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from .models import Usuario
 from .database import get_db
-from pydantic import BaseModel
+from .schemas import UserCreate, Token, MessageResponse, ErrorResponse
 import os
 import hashlib
 from datetime import datetime, timedelta
@@ -16,10 +16,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 router = APIRouter()
-
-class UserCreate(BaseModel):
-    email: str
-    password: str
 
 def verify_password(plain_password, hashed_password):
     return get_password_hash(plain_password) == hashed_password
@@ -58,7 +54,42 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise credentials_exception
     return user
 
-@router.post("/auth/login")
+@router.post("/auth/login",
+            response_model=Token,
+            summary="Fazer login no sistema",
+            description="""Autenticação de usuário via OAuth2 Password Flow.
+            
+            **Formato da requisição**: application/x-www-form-urlencoded
+            - username: email do usuário
+            - password: senha do usuário
+            
+            **Credenciais padrão para teste**:
+            - Email: admin@admin.com
+            - Senha: admin
+            
+            Retorna um token JWT válido por 60 minutos.""",
+            responses={
+                200: {
+                    "description": "Login realizado com sucesso",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                                "token_type": "bearer"
+                            }
+                        }
+                    }
+                },
+                400: {
+                    "description": "Credenciais inválidas",
+                    "model": ErrorResponse,
+                    "content": {
+                        "application/json": {
+                            "example": {"detail": "Usuário ou senha inválidos"}
+                        }
+                    }
+                }
+            })
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -66,7 +97,48 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     access_token = create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/auth/register")
+@router.post("/auth/register",
+            response_model=MessageResponse,
+            summary="Cadastrar novo usuário",
+            description="""Cria uma nova conta de usuário no sistema.
+            
+            **Validações**:
+            - Email deve ser único (não pode já existir)
+            - Senha deve ter pelo menos 4 caracteres
+            - Email deve ter formato válido
+            
+            A senha é criptografada usando SHA256 antes de ser salva.""",
+            responses={
+                200: {
+                    "description": "Usuário criado com sucesso",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "message": "Usuário criado com sucesso",
+                                "email": "novo@exemplo.com"
+                            }
+                        }
+                    }
+                },
+                400: {
+                    "description": "Erro na validação",
+                    "model": ErrorResponse,
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "email_exists": {
+                                    "summary": "Email já cadastrado",
+                                    "value": {"detail": "Email já está em uso"}
+                                },
+                                "validation_error": {
+                                    "summary": "Dados inválidos",
+                                    "value": {"detail": "Senha deve ter pelo menos 4 caracteres"}
+                                }
+                            }
+                        }
+                    }
+                }
+            })
 def register(user_data: UserCreate, db: Session = Depends(get_db)):
     # Verificar se email já existe
     existing_user = db.query(Usuario).filter(Usuario.email == user_data.email).first()

@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 from .models import Base, Usuario, Produto, Venda, Forecast
 from .auth import router as auth_router, get_current_user, get_password_hash
 from .database import get_db, engine, SessionLocal
+from .schemas import MetricsResponse, ForecastOut, ImportResponse, MLResponse, ErrorResponse
+from typing import List
 import csv
 import io
 import os
@@ -15,8 +17,63 @@ os.makedirs("data", exist_ok=True)
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
-app.include_router(auth_router)
+app = FastAPI(
+    title="Sistema de Vendas & Previsões ML",
+    description="""
+## 🚀 API para análise de vendas com Machine Learning
+
+Esta API oferece funcionalidades completas para:
+- **Autenticação JWT**: Login seguro e gestão de usuários
+- **Importação de dados**: Upload de CSV com dados de vendas  
+- **Métricas avançadas**: KPIs, evolução mensal, top produtos
+- **Machine Learning**: Previsões automáticas de demanda e receita
+
+### 🔐 Como usar:
+1. Faça login em `/auth/login` ou registre-se em `/auth/register`
+2. Use o token JWT no header: `Authorization: Bearer <token>`
+3. Importe dados via `/import` com arquivo CSV
+4. Execute o ML via `/run-ml` para gerar previsões
+5. Visualize métricas em `/metrics` e previsões em `/forecast`
+
+### 📊 Formato CSV esperado:
+```csv
+data,produto,categoria,preco,quantidade,valor_total
+2024-01-15,Notebook Dell,Eletrônicos,2500.00,2,5000.00
+```
+
+### 🔗 Links úteis:
+- **Frontend**: Execute localmente com Streamlit
+- **Repositório**: [GitHub](https://github.com/VictorBrasileiroo/Ecommerce-ACE2)
+""",
+    version="1.0.0",
+    contact={
+        "name": "Victor Brasileiro",
+        "url": "https://github.com/VictorBrasileiroo",
+    },
+    license_info={
+        "name": "MIT License",
+        "url": "https://opensource.org/licenses/MIT",
+    },
+    tags_metadata=[
+        {
+            "name": "Autenticação",
+            "description": "Endpoints para login e registro de usuários",
+        },
+        {
+            "name": "Dados",
+            "description": "Importação e gestão de dados de vendas",
+        },
+        {
+            "name": "Métricas",
+            "description": "Análises e KPIs de vendas",
+        },
+        {
+            "name": "Machine Learning",
+            "description": "Previsões e algoritmos de ML",
+        },
+    ],
+)
+app.include_router(auth_router, tags=["Autenticação"])
 
 # Configuração CORS para produção
 origins = [
@@ -34,8 +91,57 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/import")
-def import_csv(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
+@app.post("/import", 
+         response_model=ImportResponse,
+         tags=["Dados"],
+         summary="Importar dados de vendas via CSV",
+         description="""Upload de arquivo CSV com dados de vendas. O arquivo deve conter as colunas:
+         - data (formato: YYYY-MM-DD)
+         - produto (nome do produto)
+         - categoria (categoria do produto)
+         - preco (preço unitário)
+         - quantidade (quantidade vendida)
+         - valor_total (valor total da venda)
+         
+         Exemplo de CSV válido:
+         ```
+         data,produto,categoria,preco,quantidade,valor_total
+         2024-01-15,Notebook Dell,Eletrônicos,2500.00,2,5000.00
+         2024-01-20,Mouse Logitech,Periféricos,150.00,5,750.00
+         ```""",
+         responses={
+             200: {
+                 "description": "Importação realizada com sucesso",
+                 "content": {
+                     "application/json": {
+                         "example": {"status": "Importação realizada"}
+                     }
+                 }
+             },
+             400: {
+                 "description": "Erro na validação ou processamento do arquivo",
+                 "model": ErrorResponse,
+                 "content": {
+                     "application/json": {
+                         "examples": {
+                             "invalid_format": {
+                                 "summary": "Formato inválido",
+                                 "value": {"detail": "Arquivo deve ser CSV"}
+                             },
+                             "parse_error": {
+                                 "summary": "Erro no processamento",
+                                 "value": {"detail": "Erro ao processar CSV: invalid literal for int()"}
+                             }
+                         }
+                     }
+                 }
+             },
+             401: {
+                 "description": "Token de autenticação inválido",
+                 "model": ErrorResponse
+             }
+         })
+def import_csv(file: UploadFile = File(..., description="Arquivo CSV com dados de vendas"), db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Arquivo deve ser CSV")
     
@@ -74,7 +180,27 @@ def import_csv(file: UploadFile = File(...), db: Session = Depends(get_db), curr
         db.rollback()
         raise HTTPException(status_code=400, detail=f"Erro ao processar CSV: {str(e)}")
 
-@app.get("/metrics")
+@app.get("/metrics",
+         response_model=MetricsResponse,
+         tags=["Métricas"],
+         summary="Obter métricas de vendas do usuário",
+         description="""Retorna métricas consolidadas das vendas do usuário logado:
+         - Receita total acumulada
+         - Ticket médio por venda
+         - Produto mais vendido (por quantidade)
+         - Evolução mensal da receita
+         - Top 5 produtos por receita
+         - Vendas agrupadas por categoria
+         - Total de vendas realizadas
+         - Quantidade de produtos únicos vendidos
+         
+         Todas as métricas são filtradas pelos dados do usuário autenticado.""",
+         responses={
+             401: {
+                 "description": "Token de autenticação inválido",
+                 "model": ErrorResponse
+             }
+         })
 def get_metrics(db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     receita_total = db.query(func.sum(Venda.valor_total)).filter(Venda.usuario_id == current_user.id).scalar() or 0
     ticket_medio = db.query(func.avg(Venda.valor_total)).filter(Venda.usuario_id == current_user.id).scalar() or 0
@@ -116,7 +242,49 @@ def get_metrics(db: Session = Depends(get_db), current_user: Usuario = Depends(g
         "produtos_unicos": produtos_unicos
     }
 
-@app.get("/forecast")
+@app.get("/forecast",
+         response_model=List[ForecastOut],
+         tags=["Machine Learning"],
+         summary="Obter previsões de Machine Learning",
+         description="""Retorna as previsões geradas pelo modelo de Machine Learning.
+         
+         As previsões incluem:
+         - ID e nome do produto
+         - Data prevista para a demanda
+         - Quantidade/receita prevista (qtd_prevista representa receita)
+         - Intervalo de confiança da previsão
+         
+         **Importante**: Execute '/run-ml' antes para gerar novas previsões.
+         Retorna apenas previsões para produtos que o usuário já vendeu.""",
+         responses={
+             200: {
+                 "description": "Lista de previsões encontradas",
+                 "content": {
+                     "application/json": {
+                         "example": [
+                             {
+                                 "produto_id": 1,
+                                 "produto_nome": "Notebook Dell",
+                                 "data_prevista": "2025-01-01",
+                                 "qtd_prevista": 3000.0,
+                                 "intervalo_conf": "[2500.0,3500.0]"
+                             },
+                             {
+                                 "produto_id": 2,
+                                 "produto_nome": "Mouse Logitech",
+                                 "data_prevista": "2025-01-01",
+                                 "qtd_prevista": 900.0,
+                                 "intervalo_conf": "[800.0,1000.0]"
+                             }
+                         ]
+                     }
+                 }
+             },
+             401: {
+                 "description": "Token de autenticação inválido",
+                 "model": ErrorResponse
+             }
+         })
 def get_forecast(db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     forecasts = (
         db.query(Forecast, Produto.nome.label("produto_nome"))
@@ -136,7 +304,51 @@ def get_forecast(db: Session = Depends(get_db), current_user: Usuario = Depends(
         for f in forecasts
     ]
 
-@app.post("/run-ml")
+@app.post("/run-ml",
+         response_model=MLResponse,
+         tags=["Machine Learning"],
+         summary="Executar modelo de Machine Learning",
+         description="""Executa o algoritmo de Machine Learning para gerar previsões de demanda.
+         
+         O processo:
+         1. Remove previsões antigas do banco de dados
+         2. Executa o script ML (ml/ml.py) via subprocess
+         3. O script analisa os dados de vendas e gera novas previsões
+         4. As previsões são salvas automaticamente no banco
+         
+         **Tempo estimado**: 30-60 segundos
+         **Pré-requisito**: Ter dados de vendas importados
+         
+         Após a execução, use GET /forecast para visualizar os resultados.""",
+         responses={
+             200: {
+                 "description": "Resultado da execução do ML",
+                 "content": {
+                     "application/json": {
+                         "examples": {
+                             "success": {
+                                 "summary": "Execução bem-sucedida",
+                                 "value": {
+                                     "status": "success",
+                                     "message": "ML executado com sucesso"
+                                 }
+                             },
+                             "error": {
+                                 "summary": "Erro na execução",
+                                 "value": {
+                                     "status": "error",
+                                     "message": "Erro: Dados insuficientes para treinamento"
+                                 }
+                             }
+                         }
+                     }
+                 }
+             },
+             401: {
+                 "description": "Token de autenticação inválido",
+                 "model": ErrorResponse
+             }
+         })
 def run_ml_forecast(db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     try:
         db.query(Forecast).delete()

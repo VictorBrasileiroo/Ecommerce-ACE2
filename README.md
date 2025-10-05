@@ -138,22 +138,6 @@ forecast: id, produto_id, data_prevista, qtd_prevista, intervalo_conf
 
 ---
 
-## 🎨 Screenshots
-
-### 🔐 Tela de Login
-![Login](./images/login_screen.png)
-
-### 📊 Dashboard Principal
-![Dashboard](./images/dashboard_main.png)
-
-### 📈 Análise de Vendas
-![Analytics](./images/sales_analytics.png)
-
-### 🤖 Previsões ML
-![ML Predictions](./images/ml_forecasts.png)
-
----
-
 ## 🚀 Deploy (Render.com)
 
 ### ⚙️ Configurações

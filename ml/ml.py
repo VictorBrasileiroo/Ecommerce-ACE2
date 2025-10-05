@@ -4,6 +4,7 @@ import os
 from datetime import datetime, timedelta
 import random
 import math
+from collections import defaultdict
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.models import Base, Produto, Venda, Forecast, Usuario
@@ -31,26 +32,32 @@ def gerar_forecast():
         ).group_by('mes').order_by('mes').all()
         
         if len(vendas_mensais) >= 2:
-            df_receita = pd.DataFrame([
-                {'mes': mes, 'receita': float(receita)} 
-                for mes, receita in vendas_mensais
-            ])
+            receitas = [float(receita) for mes, receita in vendas_mensais]
             
-            print(f"📊 Encontrados {len(df_receita)} meses de dados de receita")
+            print(f"📊 Encontrados {len(receitas)} meses de dados de receita")
             
-            if len(df_receita) >= 3:
-                model = ExponentialSmoothing(
-                    df_receita['receita'], 
-                    trend='add',
-                    seasonal=None,
-                    initialization_method='estimated'
-                )
-                fit = model.fit(optimized=True)
-                receita_forecast = fit.forecast(3)
+            if len(receitas) >= 3:
+                # Algoritmo simples de suavização exponencial
+                alpha = 0.3  # Fator de suavização
+                forecast = []
+                s = receitas[0]  # Valor inicial
+                
+                # Calcular suavização para dados históricos
+                for r in receitas[1:]:
+                    s = alpha * r + (1 - alpha) * s
+                
+                # Gerar previsões futuras
+                tendencia = (receitas[-1] - receitas[0]) / len(receitas)
+                for i in range(3):
+                    projecao = s + tendencia * (i + 1)
+                    forecast.append(max(0, projecao))
+                
+                receita_forecast = forecast
             else:
-                crescimento = (df_receita['receita'].iloc[-1] - df_receita['receita'].iloc[0]) / len(df_receita)
-                ultima_receita = df_receita['receita'].iloc[-1]
-                receita_forecast = [ultima_receita + crescimento * (i+1) for i in range(3)]
+                # Previsão simples baseada em crescimento linear
+                crescimento = (receitas[-1] - receitas[0]) / len(receitas)
+                ultima_receita = receitas[-1]
+                receita_forecast = [max(0, ultima_receita + crescimento * (i+1)) for i in range(3)]
             
             print(f"✅ Previsões de receita geradas: {receita_forecast}")
         
@@ -68,20 +75,19 @@ def gerar_forecast():
                 produto_scores[produto.id] = 0
                 continue
                 
-            df_produto = pd.DataFrame([
-                {'data': v.data, 'receita': v.valor_total, 'quantidade': v.quantidade} 
-                for v in vendas
-            ])
+            # Processar vendas sem pandas - agrupar por mês
+            vendas_mensais = defaultdict(lambda: {'receita': 0, 'quantidade': 0})
             
-            df_produto['data'] = pd.to_datetime(df_produto['data'])
-            df_mensal = df_produto.groupby(pd.Grouper(key='data', freq='ME')).agg({
-                'receita': 'sum',
-                'quantidade': 'sum'
-            }).reset_index()
+            for venda in vendas:
+                mes_key = f"{venda.data.year}-{venda.data.month:02d}"
+                vendas_mensais[mes_key]['receita'] += venda.valor_total
+                vendas_mensais[mes_key]['quantidade'] += venda.quantidade
             
-            df_mensal = df_mensal[df_mensal['receita'] > 0]
+            # Converter para lista ordenada
+            meses_ordenados = sorted(vendas_mensais.keys())
+            receitas_mensais = [vendas_mensais[mes]['receita'] for mes in meses_ordenados if vendas_mensais[mes]['receita'] > 0]
             
-            if len(df_mensal) == 0:
+            if len(receitas_mensais) == 0:
                 produto_scores[produto.id] = 0
                 continue
             
@@ -90,13 +96,16 @@ def gerar_forecast():
             # 2. Tendência de crescimento
             # 3. Consistência (menos variação = melhor)
             
-            receita_media = df_mensal['receita'].mean()
+            receita_media = sum(receitas_mensais) / len(receitas_mensais)
             
-            if len(df_mensal) >= 2:
+            if len(receitas_mensais) >= 2:
                 # Tendência de crescimento
-                crescimento = (df_mensal['receita'].iloc[-1] - df_mensal['receita'].iloc[0]) / df_mensal['receita'].iloc[0]
+                crescimento = (receitas_mensais[-1] - receitas_mensais[0]) / receitas_mensais[0]
                 # Consistência (inverso do coeficiente de variação)
-                consistencia = 1 / (df_mensal['receita'].std() / df_mensal['receita'].mean() + 0.1)
+                variancia = sum((x - receita_media) ** 2 for x in receitas_mensais) / len(receitas_mensais)
+                desvio_padrao = math.sqrt(variancia)
+                coef_variacao = desvio_padrao / receita_media if receita_media > 0 else 1
+                consistencia = 1 / (coef_variacao + 0.1)
             else:
                 crescimento = 0
                 consistencia = 1
@@ -119,7 +128,7 @@ def gerar_forecast():
             
             # Receita prevista para o mês (se temos dados)
             if 'receita_forecast' in locals() and i < len(receita_forecast):
-                receita_mes = max(0, float(receita_forecast.iloc[i]))  # Usar .iloc para pandas Series
+                receita_mes = max(0, float(receita_forecast[i]))  # Usar índice da lista
             else:
                 # Fallback: usar média das vendas passadas
                 receita_media = db.query(func.avg(Venda.valor_total)).scalar() or 1000
